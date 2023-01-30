@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">  
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>  
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Routing</title>
+</head>
+<body>
+    <?php
+        $db = new PDO(
+            'mysql:host=db.3wa.io;port=3306;dbname=louischancioux_',
+            'louischancioux',
+            'e1657392b3cd3a9bb9acef7eddd5a20c',
+            array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")
+        );
+        
+        $query = $db->prepare('SELECT products.* FROM products JOIN products_orders ON products.id = products_orders.product_id JOIN orders ON products_orders.order_id = orders.id JOIN users ON orders.user_id = users.id WHERE users.id = (SELECT users.id FROM users ORDER BY users.registration_date DESC LIMIT 1)');
+        $query->execute();
+        $usersByLastName = $query->fetchAll(PDO::FETCH_ASSOC);
+        
+        var_dump($usersByLastName);
+    ?>
+</body>
+</html>
