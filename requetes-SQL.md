@@ -43,3 +43,5 @@ La liste de tous les utilisateurs ayant effectué plus de dix commandes ;
 SELECT users.* FROM users JOIN orders ON users.id = orders.user_id GROUP BY orders.user_id HAVING COUNT(orders.user_id) > 10
 
 La liste de tous les produits achetés par le premier utilisateur inscrit.
+
+SELECT products.* FROM products JOIN products_orders ON products.id = products_orders.product_id JOIN orders ON products_orders.order_id = orders.id JOIN users ON orders.user_id = users.id WHERE users.id = (SELECT users.id FROM users ORDER BY users.registration_date DESC LIMIT 1)
